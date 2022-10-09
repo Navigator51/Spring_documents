@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode
 @TypeDef(name = "postgresEnum", typeClass = PostgreSQLEnumType.class)
-@Table(schema = "plan")
+@Table(schema = "biplan")
 public class File {
 
     @Id

@@ -4,16 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-import su.goodcat.spring.repositories.UserRepository;
+import su.goodcat.spring_documents.controllers.UserFeignClient;
 
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    userRepository
+
+   private final UserFeignClient userFeignClient;
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
-        return userRepository.getUserByLogin(username);
+    public UserDetails loadUserByUsername(String name) {
+        return userFeignClient.searchUserByName(name).getBody();
     }
 }

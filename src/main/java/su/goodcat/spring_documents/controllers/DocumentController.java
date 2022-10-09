@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import su.goodcat.spring.domain.dto.DocumentRequestDTO;
-import su.goodcat.spring.domain.dto.DocumentResponseDTO;
-import su.goodcat.spring.services.interfaces.DocumentService;
+import su.goodcat.spring_documents.domain.dto.DocumentRequestDTO;
+import su.goodcat.spring_documents.domain.dto.DocumentResponseDTO;
+import su.goodcat.spring_documents.services.interfaces.DocumentService;
 
 import java.util.List;
 

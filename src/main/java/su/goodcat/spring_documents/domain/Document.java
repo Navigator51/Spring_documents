@@ -16,26 +16,25 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @TypeDef(name = "postgresEnum", typeClass = PostgreSQLEnumType.class)
-@Table(schema = "plan")
+@Table(schema = "biplan")
 public class Document {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id")
-    private User creator;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_id")
-    private User sender;
+    @Column(name = "creator_id")
+    private Long creatorId;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(schema = "plan", name = "document_recipient",
-            joinColumns = @JoinColumn(name = "document_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> recipients;
+    @Column(name = "sender_id")
+    private Long senderId;
+
+    @ElementCollection
+    @Column(name = "recipient_id")
+    @CollectionTable(schema = "biplan", name = "document_recipient",
+            joinColumns = @JoinColumn(name = "document_id"))
+    private List<Long> recipientsId;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "document_id")
