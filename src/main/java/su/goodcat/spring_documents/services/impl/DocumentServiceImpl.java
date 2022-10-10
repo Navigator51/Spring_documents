@@ -7,7 +7,7 @@ import su.goodcat.spring_documents.domain.Document;
 import su.goodcat.spring_documents.domain.Status;
 import su.goodcat.spring_documents.domain.dto.DocumentRequestDTO;
 import su.goodcat.spring_documents.domain.dto.DocumentResponseDTO;
-import su.goodcat.spring_documents.domain.mappers.DocumentMapper;
+import su.goodcat.spring_documents.mappers.DocumentMapper;
 import su.goodcat.spring_documents.repositories.DocumentRepository;
 import su.goodcat.spring_documents.services.interfaces.DocumentService;
 
