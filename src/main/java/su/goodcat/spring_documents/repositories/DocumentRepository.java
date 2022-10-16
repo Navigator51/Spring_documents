@@ -2,8 +2,8 @@ package su.goodcat.spring_documents.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import su.goodcat.commonlib.domain.Status;
 import su.goodcat.spring_documents.domain.Document;
-import su.goodcat.spring_documents.domain.Status;
 
 import java.util.List;
 

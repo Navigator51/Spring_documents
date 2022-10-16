@@ -1,14 +1,13 @@
 package su.goodcat.spring_documents.mappers;
 
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
+import su.goodcat.commonlib.domain.DocumentResponseDTO;
+import su.goodcat.commonlib.faign.UserFeignClient;
 import su.goodcat.spring_documents.config.MapstructConfig;
-import su.goodcat.spring_documents.controllers.UserFeignClient;
 import su.goodcat.spring_documents.domain.Document;
-import su.goodcat.spring_documents.domain.dto.DocumentResponseDTO;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
 public abstract class DocumentMapper {
 
     @Autowired
-    private  UserFeignClient userFeignClient;
+    private UserFeignClient userFeignClient;
 
     @Named("getUsernameByDocument")
     public String getUsernameByDocument(Document document) {
