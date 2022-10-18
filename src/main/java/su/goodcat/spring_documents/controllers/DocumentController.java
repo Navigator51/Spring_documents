@@ -3,13 +3,16 @@ package su.goodcat.spring_documents.controllers;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import su.goodcat.commonlib.domain.DocumentRequestDTO;
 import su.goodcat.commonlib.domain.DocumentResponseDTO;
+import su.goodcat.spring_documents.domain.Category;
 import su.goodcat.spring_documents.services.interfaces.DocumentService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,4 +29,10 @@ public class DocumentController {
     public ResponseEntity<List<DocumentResponseDTO>> getDocumentByStatus(@RequestBody DocumentRequestDTO documentRequestDTO) {
         return ResponseEntity.ok(documentService.getDocumentListByStatus(documentRequestDTO));
     }
+
+    @GetMapping(path = "/api/v1/document/category")
+    public ResponseEntity<List<Category>> getCategoryList() {
+        return ResponseEntity.ok(new ArrayList<>());
+    }
+
 }
