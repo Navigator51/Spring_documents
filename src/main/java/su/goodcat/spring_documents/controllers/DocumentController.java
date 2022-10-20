@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import su.goodcat.commonlib.domain.DocumentRequestDTO;
 import su.goodcat.commonlib.domain.DocumentResponseDTO;
 import su.goodcat.spring_documents.domain.Category;
+import su.goodcat.spring_documents.services.impl.GetDocumentServiceImpl;
 import su.goodcat.spring_documents.services.interfaces.DocumentService;
+import su.goodcat.spring_documents.services.interfaces.GetDocumentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.List;
 public class DocumentController {
 
     private final DocumentService documentService;
+    private final GetDocumentService getDocumentService;
 
     @PostMapping(path = "/api/v1/document/status")
     public ResponseEntity<List<DocumentResponseDTO>> getDocumentByStatus(@RequestBody DocumentRequestDTO documentRequestDTO) {
@@ -32,6 +35,7 @@ public class DocumentController {
 
     @GetMapping(path = "/api/v1/document/category")
     public ResponseEntity<List<Category>> getCategoryList() {
+
         return ResponseEntity.ok(new ArrayList<>());
     }
 

@@ -1,10 +1,24 @@
 package su.goodcat.spring_documents.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
 public class Type {
 
-    private final String typeCode;
-    private final String typeName;
+    private  String typeCode;
+    private  String typeName;
+    @JsonIgnore
+    private  int groupCode;
+    @JsonIgnore
+    private String groupName;
+    @JsonIgnore
+    private  int categoryCode;
+    @JsonIgnore
+    private String categoryName;
 }
