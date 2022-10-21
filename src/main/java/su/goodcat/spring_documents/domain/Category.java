@@ -1,14 +1,16 @@
 package su.goodcat.spring_documents.domain;
 
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@Data
+@NoArgsConstructor
 public class Category {
 
-    private final int typeCategoryCode;
-    private final String typeCategoryName;
-    private final List<Group> groupList;
+    private  int typeCategoryCode;
+    private  String typeCategoryName;
+    private  List<Group> groupList;
 
 }

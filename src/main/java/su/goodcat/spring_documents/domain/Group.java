@@ -1,15 +1,21 @@
 package su.goodcat.spring_documents.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 import java.util.List;
-@RequiredArgsConstructor
+
+@Data
+@NoArgsConstructor
 public class Group {
 
-    private final int groupeCode;
-    private final String groupeName;
-    private final List<Type> typeList;
+    private  int groupeCode;
+    private  String groupeName;
+    private  List<Type> typeList;
     @JsonIgnore
-    private final int categoryCode;
+    private  int categoryCode;
+    @JsonIgnore
+    private String categoryName;
 }
