@@ -4,8 +4,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
+import su.goodcat.commonlib.domain.DocumentDTO;
 import su.goodcat.commonlib.domain.DocumentResponseDTO;
-import su.goodcat.commonlib.faign.UserFeignClient;
+import su.goodcat.commonlib.feign.UserFeignClient;
 import su.goodcat.spring_documents.config.MapstructConfig;
 import su.goodcat.spring_documents.domain.Document;
 
@@ -27,4 +28,7 @@ public abstract class DocumentMapper {
     abstract DocumentResponseDTO fromDocumentToDocumentResponseDTO(Document document);
 
     public abstract List<DocumentResponseDTO> fromDocumentToDocumentResponseDTO(List<Document> documentList);
+
+    @Mapping(source = "id", target = "documentId")
+    public abstract DocumentDTO fromDocumentToDocumentDTO(Document document);
 }

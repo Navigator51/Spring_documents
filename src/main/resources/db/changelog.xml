@@ -11,5 +11,9 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd"
         <sqlFile path="001/001-create_document_and_file_tables.sql" relativeToChangelogFile="true"/>
         <rollback/>
     </changeSet>
+    <changeSet id="2" author="e.markov">
+        <sqlFile path="002/001-add_column_was_read_to_document_table.sql" relativeToChangelogFile="true"/>
+        <rollback/>
+    </changeSet>
 
 </databaseChangeLog>

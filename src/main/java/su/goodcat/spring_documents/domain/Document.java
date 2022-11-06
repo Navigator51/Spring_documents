@@ -56,4 +56,7 @@ public class Document {
     // запись енама в базу по значению
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Column(name = "was_read")
+    private boolean isRead;
 }

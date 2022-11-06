@@ -1,8 +1,10 @@
 package su.goodcat.spring_documents.services.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
-import su.goodcat.spring_documents.controllers.OutFeigh;
+import su.goodcat.spring_documents.feign.OutFeigh;
 import su.goodcat.spring_documents.domain.*;
 import su.goodcat.spring_documents.services.interfaces.GetDocumentService;
 
@@ -23,8 +25,8 @@ public class GetDocumentServiceImpl implements GetDocumentService {
 
         // Делаем запрос во внешний сервис и получаем ответ в виде объекта DictionaryRecordSearch
         DictionaryRecordsSearch drs = Optional.ofNullable(outFeigh.apiV1DictionaryNameSearchPost
-                        ("documentTypes",
-                                GetDictionaryRequest.builder().includes(List.of("documentTypeGroup", "documentTypeCategory")).build(),
+                        (GetDictionaryRequest.builder().includes(List.of("documentTypeGroup", "documentTypeCategory")).build(),
+                                "documentTypes",
                                 1,
                                 500)
                 .getBody()).orElseThrow();
@@ -34,32 +36,44 @@ public class GetDocumentServiceImpl implements GetDocumentService {
                 .map(DictionaryRecord::getData)
                 .map(a -> (Map<String, Object>) a)
                 .map(a -> new Type()
-                    .setTypeCode((String) a.get("documentTypeCode"))
-                    .setTypeName((String) a.get("documentTypeName"))
-                    .setGroupCode((int) getData(a, "documentTypeGroup").get("documentTypeGroupCode"))
-                    .setGroupName((String) getData(a, "documentTypeGroup").get("documentTypeGroupName"))
-                    .setCategoryCode((int) getData(a, "documentTypeCategory").get("documentTypeCategoryCode"))
-                    .setCategoryName((String) getData(a, "documentTypeCategory").get("documentTypeCategoryName")))
+                        .setTypeCode((String) a.get("documentTypeCode"))
+                        .setTypeName((String) a.get("documentTypeName"))
+                        .setGroupCode((int) getData(a, "documentTypeGroup").get("documentTypeGroupCode"))
+                        .setGroupName((String) getData(a, "documentTypeGroup").get("documentTypeGroupName"))
+                        .setCategoryCode((int) getData(a, "documentTypeCategory").get("documentTypeCategoryCode"))
+                        .setCategoryName((String) getData(a, "documentTypeCategory").get("documentTypeCategoryName")))
                 .toList();
 
-        Map<Integer, List<Type>> groupMap = typeList.stream()
-                .collect(Collectors.groupingBy(Type::getGroupCode));
+        // делаем группировку в мапу, где ключём является пара значений  код "группы-код категории"
+        // для того, чтобы в будущем издежать неодносначности при фогмировании категории.
+        Map<Pair<Integer, Integer>, List<Type>> groupMap = typeList.stream()
+                .collect(Collectors.groupingBy(type -> new ImmutablePair<>(type.getGroupCode(), type.getCategoryCode())));
 
-        List<Group> groupList = groupMap.values().stream()
-                .map(types -> new Group().setGroupeCode(types.get(0).getGroupCode())
-                        .setGroupeName(types.get(0).getGroupName())
-                        .setCategoryCode(types.get(0).getCategoryCode())
-                        .setCategoryName(types.get(0).getCategoryName())
-                        .setTypeList(types))
+        // Сетим группы и собираем их в список. Перед сетом списка типов в нём делаем сортировку по имени.
+        List<Group> groupList = groupMap.entrySet().stream()
+                .map(entry -> new Group().setGroupeCode(entry.getKey().getLeft())
+                        .setGroupeName(entry.getValue().get(0).getGroupName())
+                        .setCategoryCode(entry.getKey().getRight())
+                        .setCategoryName(entry.getValue().get(0).getCategoryName())
+                        .setTypeList(entry.getValue()
+                                .stream().sorted(Comparator.comparing(Type::getTypeName))
+                                .toList()))
                 .toList();
 
+        // Группируем группы в мапу, где ключ это код категория
         Map<Integer, List<Group>> categoryMap = groupList.stream()
                 .collect(Collectors.groupingBy(Group::getCategoryCode));
 
+        // Сетим категории. При этом сортируем списки групп по имени
+        // Собираем и возвращаем список категорий. Перед этим сортируем список по имени категорий.
         return categoryMap.values().stream()
-                .map(groups -> new Category().setGroupList(groups)
+                .map(groups -> new Category()
                         .setTypeCategoryCode(groups.get(0).getCategoryCode())
-                        .setTypeCategoryName(groups.get(0).getCategoryName()))
+                        .setTypeCategoryName(groups.get(0).getCategoryName())
+                        .setGroupList(groups.stream()
+                                .sorted(Comparator.comparing(Group::getGroupeName))
+                                .toList()))
+                .sorted(Comparator.comparing(Category::getTypeCategoryName))
                 .toList();
 
     }

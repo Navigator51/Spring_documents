@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-import su.goodcat.commonlib.faign.UserFeignClient;
+import su.goodcat.commonlib.feign.UserFeignClient;
 
 @Service
 
