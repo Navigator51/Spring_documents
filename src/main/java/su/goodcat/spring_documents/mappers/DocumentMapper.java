@@ -10,7 +10,9 @@ import su.goodcat.commonlib.feign.UserFeignClient;
 import su.goodcat.spring_documents.config.MapstructConfig;
 import su.goodcat.spring_documents.domain.Document;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Mapper(config = MapstructConfig.class)
 public abstract class DocumentMapper {
@@ -20,7 +22,8 @@ public abstract class DocumentMapper {
 
     @Named("getUsernameByDocument")
     public String getUsernameByDocument(Document document) {
-        return userFeignClient.searchUserById(document.getSenderId()).getBody().getLogin();
+        return Objects.requireNonNull(userFeignClient.searchUserById(document.getSenderId()).getBody(),
+                "Не найден пользователь с запрошенным именем").getLogin();
     }
 
     @Mapping(source = "document", target = "senderUserName", qualifiedByName = "getUsernameByDocument")
@@ -31,4 +34,5 @@ public abstract class DocumentMapper {
 
     @Mapping(source = "id", target = "documentId")
     public abstract DocumentDTO fromDocumentToDocumentDTO(Document document);
+    public abstract List<DocumentDTO> fromDocumentToDocumentDTO(Collection<Document> documentCollection);
 }

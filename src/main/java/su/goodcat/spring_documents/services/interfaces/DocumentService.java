@@ -12,6 +12,5 @@ public interface DocumentService {
 
     List<DocumentResponseDTO> getDocumentListByStatus(DocumentRequestDTO documentRequestDTO);
 
-    ResponseDTOWithDTOList getCounterPartyNotReadDocuments(CounterpartyDocumentRequestDTO counterpartyDocumentRequestDTO,
-                                                           UserDetails userDetails);
+    ResponseDTOWithDTOList getCounterPartyNotReadDocuments(CounterpartyDocumentRequestDTO counterpartyDocumentRequestDTO);
 }

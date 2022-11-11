@@ -1,5 +1,6 @@
 package su.goodcat.spring_documents.services.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import su.goodcat.commonlib.feign.UserFeignClient;
 
 @Service
+@Slf4j
 
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -21,6 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String name) {
+        log.debug("Обращение userDetails для получения пользователя");
         return userFeignClient.searchUserByName(name).getBody();
     }
 }
