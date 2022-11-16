@@ -1,6 +1,5 @@
 package su.goodcat.spring_documents.services.interfaces;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import su.goodcat.commonlib.domain.CounterpartyDocumentRequestDTO;
 import su.goodcat.commonlib.domain.DocumentRequestDTO;
 import su.goodcat.commonlib.domain.DocumentResponseDTO;
