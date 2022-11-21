@@ -17,6 +17,7 @@ public class LiquiBaseConfig {
         springLiquibase.setLiquibaseSchema("public");
         springLiquibase.setDataSource(dataSource);
         springLiquibase.setChangeLog("classpath:db/changelog.xml");
+        springLiquibase.setDropFirst(true);
 
         return springLiquibase;
     }

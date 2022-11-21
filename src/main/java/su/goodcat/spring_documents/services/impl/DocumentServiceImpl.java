@@ -3,6 +3,7 @@ package su.goodcat.spring_documents.services.impl;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import su.goodcat.commonlib.domain.*;
 import su.goodcat.spring_documents.domain.Document;
 import su.goodcat.spring_documents.mappers.DocumentMapper;
@@ -26,6 +27,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDTOWithDTOList getCounterPartyNotReadDocuments(CounterpartyDocumentRequestDTO counterpartyDocumentRequestDTO) {
         //меняем местами отправителя и получателя в зависимости от того, входящие или исходящие документы нужны
         long senderId = 0;
@@ -37,7 +39,9 @@ public class DocumentServiceImpl implements DocumentService {
             senderId = counterpartyDocumentRequestDTO.getUserId();
             recipientId = counterpartyDocumentRequestDTO.getCounterpartyID();
         }
-        List<Document> documentList = documentRepository.getCounterpartyDocument(senderId, recipientId, counterpartyDocumentRequestDTO.getForbiddenStatus());
+        List<Long> idList = documentRepository.getCounterpartyDocument
+                (senderId, recipientId, counterpartyDocumentRequestDTO.getForbiddenStatus());
+        List<Document> documentList = documentRepository.findByAllDependensies(idList);
         return new ResponseDTOWithDTOList(Mappers.getMapper(DocumentMapper.class).fromDocumentToDocumentDTO(documentList));
 
     }

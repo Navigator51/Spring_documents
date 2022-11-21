@@ -2,7 +2,9 @@ package su.goodcat.spring_documents.domain;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -33,12 +35,16 @@ public class Document {
     @Column(name = "sender_id")
     private Long senderId;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ElementCollection
     @Column(name = "recipient_id")
     @CollectionTable(schema = "biplan", name = "document_recipient",
             joinColumns = @JoinColumn(name = "document_id"))
     private List<Long> recipientsId;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "document_id")
     private List<File> fileList;
@@ -59,4 +65,6 @@ public class Document {
 
     @Column(name = "was_read")
     private boolean isRead;
+
+
 }

@@ -1,12 +1,14 @@
 package su.goodcat.spring_documents.config;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.util.List;
 
 @Import(LiquiBaseConfig.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class DataBaseContainerConfig {
 
     private final static String postgresImageName = "postgres:12";

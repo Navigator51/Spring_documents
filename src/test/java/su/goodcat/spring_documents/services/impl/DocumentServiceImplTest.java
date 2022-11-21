@@ -35,8 +35,11 @@ class DocumentServiceImplTest {
         LocalDateTime a = LocalDateTime.of(2021, 12, 11, 7, 16);
 
         when(documentRepository.getCounterpartyDocument(4L, 1L, Status.DRAFT))
-                .thenReturn(List.of(new Document().setId(128).setModifyDate(LocalDateTime.of(2022, 3,16,12,15)),
-                                    new Document().setId(46).setModifyDate(a)));
+                .thenReturn(List.of(128L, 46L));
+
+        when(documentRepository.findAllById(List.of(128L, 46L)))
+                .thenReturn(List.of(new Document().setId(128L).setModifyDate(LocalDateTime.of(2022, 3,16,12,15)),
+                        new Document().setId(46L).setModifyDate(a)));
 
         //when
         ResponseDTOWithDTOList result = documentService.getCounterPartyNotReadDocuments(counterpartyDocumentRequestDTO);
